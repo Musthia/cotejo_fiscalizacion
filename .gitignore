@@ -1,0 +1,118 @@
+# =========================
+# 🐍 Python
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+*.rar
+
+# Entornos virtuales
+venv/
+env/
+.venv/
+lib/
+bin/
+scripts/
+include/
+pyvenv.cfg
+
+# =========================
+# ARCHIVOS SENSIBLES
+# =========================
+.env
+*.env
+config_local.py
+secret.py
+build_exe.bat
+
+# =========================
+# 🧠 IDEs / Editores
+# =========================
+.vscode/
+.idea/
+copias/
+
+# =========================
+# BASE DE DATOS (NO versionar)
+# =========================
+*.db
+*.sqlite
+*.sqlite3
+backups/
+backups_bases/
+backup/
+uploads/
+
+# =========================
+# 📂 Archivos generados
+# =========================
+*.log
+*.tmp
+*.bak
+*.pdf
+*.accdb
+*.csv
+*.xlsx
+*.bat
+*.xml
+
+# =========================
+# ARCHIVOS TEMPORALES
+# =========================
+temp/
+tmp/
+*.tmp
+.COPIAS/
+
+# =========================
+# 🖼️ Imágenes generadas
+# =========================
+#img/
+aplicaciones/
+llama ccp_cpu/
+llama cccp_nvidia_3080/
+
+
+# =========================
+# 📦 Builds
+# =========================
+build/
+dist/
+*.exe
+*.lnk
+*.spec
+*_rc.py
+
+# =========================
+# 🔐 Variables sensibles
+# =========================
+.env
+
+# =========================
+# 🧾 Sistema
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# 🧪 Cache / testing
+# =========================
+.pytest_cache/
+.coverage
+htmlcov/
+
+# =========================
+# WINDOWS
+# =========================
+Thumbs.db
+desktop.ini
+
+bases_g/
+
+client_secret*.json
+client_secret_*.json
+# Clave DB cifrada (database/.dbkey) — nunca versionar
+*.dbkey
+.dbkey
