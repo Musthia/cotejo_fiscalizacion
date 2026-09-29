@@ -17,6 +17,7 @@ bin/
 scripts/
 include/
 pyvenv.cfg
+.kilo
 
 # =========================
 # ARCHIVOS SENSIBLES

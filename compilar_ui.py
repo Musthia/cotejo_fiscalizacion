@@ -16,6 +16,9 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent
 UI_DIR = BASE_DIR / "ui"
 UIC_EXE = BASE_DIR / "venv" / "Scripts" / "pyside6-uic.exe"
+RCC_EXE = BASE_DIR / "venv" / "Scripts" / "pyside6-rcc.exe"
+RESOURCE_QRC = BASE_DIR / "img" / "img.qrc"
+RESOURCE_PY = BASE_DIR / "img_rc.py"
 
 # (origen .ui, destino .py generado)
 UIS = [
@@ -37,11 +40,26 @@ def compilar(origen: Path, destino: Path) -> None:
     subprocess.run(cmd, check=True)
 
 
+def compilar_recursos() -> None:
+    cmd = [str(RCC_EXE), str(RESOURCE_QRC), "-o", str(RESOURCE_PY)]
+    print(f"Compilando {RESOURCE_QRC.name} -> {RESOURCE_PY.name}")
+    subprocess.run(cmd, check=True)
+
+
 def main() -> int:
     force = "--force" in sys.argv
     if not UIC_EXE.exists():
         print(f"No se encontro {UIC_EXE}. Activa el venv.")
         return 1
+    if not RCC_EXE.exists():
+        print(f"No se encontro {RCC_EXE}. Activa el venv.")
+        return 1
+    if not RESOURCE_QRC.exists():
+        print(f"Falta archivo de recursos: {RESOURCE_QRC}")
+        return 1
+
+    compilar_recursos()
+
     for origen, destino in UIS:
         if not origen.exists():
             print(f"Falta plantilla: {origen}")
