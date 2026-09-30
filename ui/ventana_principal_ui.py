@@ -16,15 +16,15 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QFrame, QGridLayout, QHeaderView,
-    QMainWindow, QPushButton, QSizePolicy, QTableWidget,
-    QTableWidgetItem, QWidget)
+    QLabel, QMainWindow, QPushButton, QSizePolicy,
+    QTableWidget, QTableWidgetItem, QWidget)
 import img_rc
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1202, 834)
+        MainWindow.resize(1202, 842)
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -41,6 +41,7 @@ class Ui_MainWindow(object):
         self.frame.setObjectName(u"frame")
         sizePolicy.setHeightForWidth(self.frame.sizePolicy().hasHeightForWidth())
         self.frame.setSizePolicy(sizePolicy)
+        self.frame.setStyleSheet(u"background-image: url(:/ico/image (1).png);")
         self.frame.setFrameShape(QFrame.Shape.StyledPanel)
         self.frame.setFrameShadow(QFrame.Shadow.Raised)
         self.gridLayout_2 = QGridLayout(self.frame)
@@ -340,57 +341,12 @@ class Ui_MainWindow(object):
 
         self.gridLayout_6.addWidget(self.tableWidget_faltantes, 0, 0, 1, 4)
 
-        self.pushButton_9 = QPushButton(self.frame_9)
-        self.pushButton_9.setObjectName(u"pushButton_9")
-        self.pushButton_9.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
-        self.pushButton_9.setStyleSheet(u"QPushButton {\n"
-"    /* Base de acero azul oscuro profundo (volumen hacia afuera) */\n"
-"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, \n"
-"                                      stop:0 rgb(50, 65, 85), \n"
-"                                      stop:1 rgb(30, 40, 55));\n"
-"    color: #FFFFFF;\n"
-"    /* Borde oscuro con reflejo superior azul brillante */\n"
-"    border: 1px solid #0b111a;\n"
-"    border-top: 1px solid #6391c2; \n"
-"    border-radius: 6px;\n"
-"    padding: 7px 14px;\n"
-"    font-weight: bold;\n"
-"    font-size: 12px;\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"    /* El azul base se enciende e intensifica notablemente */\n"
-"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, \n"
-"                                      stop:0 rgb(80, 110, 145), \n"
-"                                      stop:1 rgb(45, 65, 90));\n"
-"    /* Texto cian brillante para m\u00e1ximo contraste en hover */\n"
-"    color: #3ae2ff;\n"
-"    /* Bordes el\u00e9ctricos integrados */\n"
-"    border: 1px so"
-                        "lid #163654;\n"
-"    border-top: 1px solid #5cb3ff;\n"
-"}\n"
-"\n"
-"QPushButton:pressed {\n"
-"    /* Hundimiento extremo en azul marino casi negro */\n"
-"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, \n"
-"                                      stop:0 rgb(15, 25, 40), \n"
-"                                      stop:1 rgb(25, 35, 50));\n"
-"    color: #00bfff;\n"
-"    border: 1px solid #050b14;\n"
-"    padding-top: 8px;\n"
-"    padding-bottom: 6px;\n"
-"}\n"
-"\n"
-"QPushButton:disabled {\n"
-"    /* Desaturado completo (gris ligeramente fr\u00edo) para indicar inactividad */\n"
-"    background-color: #4b525a;\n"
-"    color: #828a94;\n"
-"    border: 1px solid #363b40;\n"
-"}\n"
-"")
+        self.line_4 = QFrame(self.frame_9)
+        self.line_4.setObjectName(u"line_4")
+        self.line_4.setFrameShape(QFrame.Shape.VLine)
+        self.line_4.setFrameShadow(QFrame.Shadow.Sunken)
 
-        self.gridLayout_6.addWidget(self.pushButton_9, 1, 0, 1, 1)
+        self.gridLayout_6.addWidget(self.line_4, 1, 2, 1, 1)
 
         self.line_8 = QFrame(self.frame_9)
         self.line_8.setObjectName(u"line_8")
@@ -398,13 +354,6 @@ class Ui_MainWindow(object):
         self.line_8.setFrameShadow(QFrame.Shadow.Sunken)
 
         self.gridLayout_6.addWidget(self.line_8, 1, 1, 1, 1)
-
-        self.line_4 = QFrame(self.frame_9)
-        self.line_4.setObjectName(u"line_4")
-        self.line_4.setFrameShape(QFrame.Shape.VLine)
-        self.line_4.setFrameShadow(QFrame.Shadow.Sunken)
-
-        self.gridLayout_6.addWidget(self.line_4, 1, 2, 1, 1)
 
         self.pushButton_3 = QPushButton(self.frame_9)
         self.pushButton_3.setObjectName(u"pushButton_3")
@@ -457,6 +406,65 @@ class Ui_MainWindow(object):
 "")
 
         self.gridLayout_6.addWidget(self.pushButton_3, 1, 3, 1, 1)
+
+        self.pushButton_export_falt = QPushButton(self.frame_9)
+        self.pushButton_export_falt.setObjectName(u"pushButton_export_falt")
+        self.pushButton_export_falt.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.pushButton_export_falt.setStyleSheet(u"QPushButton {\n"
+"    /* Base de acero azul oscuro profundo (volumen hacia afuera) */\n"
+"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, \n"
+"                                      stop:0 rgb(50, 65, 85), \n"
+"                                      stop:1 rgb(30, 40, 55));\n"
+"    color: #FFFFFF;\n"
+"    /* Borde oscuro con reflejo superior azul brillante */\n"
+"    border: 1px solid #0b111a;\n"
+"    border-top: 1px solid #6391c2; \n"
+"    border-radius: 6px;\n"
+"    padding: 7px 14px;\n"
+"    font-weight: bold;\n"
+"    font-size: 12px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    /* El azul base se enciende e intensifica notablemente */\n"
+"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, \n"
+"                                      stop:0 rgb(80, 110, 145), \n"
+"                                      stop:1 rgb(45, 65, 90));\n"
+"    /* Texto cian brillante para m\u00e1ximo contraste en hover */\n"
+"    color: #3ae2ff;\n"
+"    /* Bordes el\u00e9ctricos integrados */\n"
+"    border: 1px so"
+                        "lid #163654;\n"
+"    border-top: 1px solid #5cb3ff;\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    /* Hundimiento extremo en azul marino casi negro */\n"
+"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, \n"
+"                                      stop:0 rgb(15, 25, 40), \n"
+"                                      stop:1 rgb(25, 35, 50));\n"
+"    color: #00bfff;\n"
+"    border: 1px solid #050b14;\n"
+"    padding-top: 8px;\n"
+"    padding-bottom: 6px;\n"
+"}\n"
+"\n"
+"QPushButton:disabled {\n"
+"    /* Desaturado completo (gris ligeramente fr\u00edo) para indicar inactividad */\n"
+"    background-color: #4b525a;\n"
+"    color: #828a94;\n"
+"    border: 1px solid #363b40;\n"
+"}\n"
+"")
+
+        self.gridLayout_6.addWidget(self.pushButton_export_falt, 1, 0, 1, 1)
+
+        self.label_2_info = QLabel(self.frame_9)
+        self.label_2_info.setObjectName(u"label_2_info")
+        sizePolicy.setHeightForWidth(self.label_2_info.sizePolicy().hasHeightForWidth())
+        self.label_2_info.setSizePolicy(sizePolicy)
+
+        self.gridLayout_6.addWidget(self.label_2_info, 2, 0, 1, 4)
 
 
         self.gridLayout_2.addWidget(self.frame_9, 3, 1, 1, 1)
@@ -757,10 +765,10 @@ class Ui_MainWindow(object):
 
         self.gridLayout_5.addWidget(self.tableWidget_coincidencias, 0, 0, 1, 4)
 
-        self.pushButton_8 = QPushButton(self.frame_6)
-        self.pushButton_8.setObjectName(u"pushButton_8")
-        self.pushButton_8.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
-        self.pushButton_8.setStyleSheet(u"QPushButton {\n"
+        self.pushButton_export_coinc = QPushButton(self.frame_6)
+        self.pushButton_export_coinc.setObjectName(u"pushButton_export_coinc")
+        self.pushButton_export_coinc.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.pushButton_export_coinc.setStyleSheet(u"QPushButton {\n"
 "    /* Base de acero azul oscuro profundo (volumen hacia afuera) */\n"
 "    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, \n"
 "                                      stop:0 rgb(50, 65, 85), \n"
@@ -807,21 +815,7 @@ class Ui_MainWindow(object):
 "}\n"
 "")
 
-        self.gridLayout_5.addWidget(self.pushButton_8, 1, 0, 1, 1)
-
-        self.line_3 = QFrame(self.frame_6)
-        self.line_3.setObjectName(u"line_3")
-        self.line_3.setFrameShape(QFrame.Shape.VLine)
-        self.line_3.setFrameShadow(QFrame.Shadow.Sunken)
-
-        self.gridLayout_5.addWidget(self.line_3, 1, 1, 1, 1)
-
-        self.line_5 = QFrame(self.frame_6)
-        self.line_5.setObjectName(u"line_5")
-        self.line_5.setFrameShape(QFrame.Shape.VLine)
-        self.line_5.setFrameShadow(QFrame.Shadow.Sunken)
-
-        self.gridLayout_5.addWidget(self.line_5, 1, 2, 1, 1)
+        self.gridLayout_5.addWidget(self.pushButton_export_coinc, 1, 0, 1, 1)
 
         self.pushButton_4 = QPushButton(self.frame_6)
         self.pushButton_4.setObjectName(u"pushButton_4")
@@ -874,6 +868,27 @@ class Ui_MainWindow(object):
 "")
 
         self.gridLayout_5.addWidget(self.pushButton_4, 1, 3, 1, 1)
+
+        self.line_5 = QFrame(self.frame_6)
+        self.line_5.setObjectName(u"line_5")
+        self.line_5.setFrameShape(QFrame.Shape.VLine)
+        self.line_5.setFrameShadow(QFrame.Shadow.Sunken)
+
+        self.gridLayout_5.addWidget(self.line_5, 1, 2, 1, 1)
+
+        self.line_3 = QFrame(self.frame_6)
+        self.line_3.setObjectName(u"line_3")
+        self.line_3.setFrameShape(QFrame.Shape.VLine)
+        self.line_3.setFrameShadow(QFrame.Shadow.Sunken)
+
+        self.gridLayout_5.addWidget(self.line_3, 1, 1, 1, 1)
+
+        self.label_1_info = QLabel(self.frame_6)
+        self.label_1_info.setObjectName(u"label_1_info")
+        sizePolicy.setHeightForWidth(self.label_1_info.sizePolicy().hasHeightForWidth())
+        self.label_1_info.setSizePolicy(sizePolicy)
+
+        self.gridLayout_5.addWidget(self.label_1_info, 2, 0, 1, 4)
 
 
         self.gridLayout_2.addWidget(self.frame_6, 3, 0, 1, 1)
@@ -1005,17 +1020,19 @@ class Ui_MainWindow(object):
         self.pushButton_datos_csv_2.setText(QCoreApplication.translate("MainWindow", u"DATSOS EN CSV", None))
         self.pushButton_datos_txt_2.setText(QCoreApplication.translate("MainWindow", u"DATOS EN TXT", None))
         self.pushButton_datos_acces_2.setText(QCoreApplication.translate("MainWindow", u"DATOS EN ACCES", None))
-        self.pushButton_9.setText(QCoreApplication.translate("MainWindow", u"Exportar", None))
         self.pushButton_3.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
+        self.pushButton_export_falt.setText(QCoreApplication.translate("MainWindow", u"Exportar", None))
+        self.label_2_info.setText("")
         self.pushButton_datos_acces.setText(QCoreApplication.translate("MainWindow", u"DATOS EN ACCES", None))
         self.pushButton_datos_db.setText(QCoreApplication.translate("MainWindow", u"BASES DE DATOS", None))
         self.pushButton_datos_txt.setText(QCoreApplication.translate("MainWindow", u"DATCOS EN TXT", None))
         self.pushButton_nomb_archiv.setText(QCoreApplication.translate("MainWindow", u"NOMBRES DE ARCHIVOS", None))
         self.pushButton_datos_csv.setText(QCoreApplication.translate("MainWindow", u"DATCOS EN CSV", None))
         self.pushButton_datos_excel.setText(QCoreApplication.translate("MainWindow", u"DATOS EN EXCEL", None))
-        self.pushButton_8.setText(QCoreApplication.translate("MainWindow", u"Exportar", None))
+        self.pushButton_export_coinc.setText(QCoreApplication.translate("MainWindow", u"Exportar", None))
         self.pushButton_4.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
+        self.label_1_info.setText("")
         self.pushButton_comparar.setText(QCoreApplication.translate("MainWindow", u"COMPARAR", None))
-        self.pushButton_limpiar_todo.setText(QCoreApplication.translate("MainWindow", u"LIMPIARA TABLAS", None))
+        self.pushButton_limpiar_todo.setText(QCoreApplication.translate("MainWindow", u"LIMPIAR TABLAS", None))
     # retranslateUi
 

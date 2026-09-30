@@ -9,10 +9,12 @@ from PySide6.QtWidgets import QMainWindow, QMessageBox
 from ui.ventana_principal_ui import Ui_MainWindow
 from utils.carga_datos import cargar_en_tabla
 from utils.comparacion import (
-    comparar_por_campos,
+    comparar_con_detalle,
     leer_qtable,
     mostrar_coincidencias,
+    mostrar_faltantes,
 )
+from utils.exportar import exportar_tabla
 from views.dialogo_campos import DialogoCampos
 
 
@@ -24,6 +26,7 @@ class VentanaPrincipal(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self._conectar_carga_datos()
         self._conectar_comparacion()
+        self._conectar_exportacion()
         self.archivo_datos1 = None
         self.archivo_datos2 = None
 
@@ -59,6 +62,21 @@ class VentanaPrincipal(QMainWindow, Ui_MainWindow):
     def _conectar_comparacion(self):
         self.pushButton_comparar.clicked.connect(self._comparar)
 
+    def _conectar_exportacion(self):
+        self.pushButton_export_coinc.clicked.connect(
+            lambda: exportar_tabla(
+                self,
+                self.tableWidget_coincidencias,
+                "Coincidencias",
+                "coincidencias",
+            )
+        )
+        self.pushButton_export_falt.clicked.connect(
+            lambda: exportar_tabla(
+                self, self.tableWidget_faltantes, "Faltantes", "faltantes"
+            )
+        )
+
     def _comparar(self):
         cab1, filas1 = leer_qtable(self.tableWidget_datos1)
         cab2, filas2 = leer_qtable(self.tableWidget_datos2)
@@ -81,13 +99,15 @@ class VentanaPrincipal(QMainWindow, Ui_MainWindow):
         if elegido is None:
             return
         idx1, idx2, opts = elegido
-        pares = comparar_por_campos(
+        detalle = comparar_con_detalle(
             filas1,
             idx1,
             filas2,
             idx2,
             case_sensitive=opts.get("case_sensitive", False),
             strip=opts.get("strip", True),
+            parcial=opts.get("parcial", True),
+            min_longitud_parcial=int(opts.get("min_longitud_parcial", 3)),
         )
         mostrar_coincidencias(
             self.tableWidget_coincidencias,
@@ -95,19 +115,36 @@ class VentanaPrincipal(QMainWindow, Ui_MainWindow):
             filas1,
             cab2,
             filas2,
-            pares,
+            detalle,
             idx1,
             idx2,
         )
+        n_exactas = sum(1 for _, _, t in detalle if t == "exacta")
+        n_parciales = len(detalle) - n_exactas
         self.tableWidget_coincidencias.setToolTip(
-            f"{len(pares)} coincidencias: {cab1[idx1]} <-> {cab2[idx2]}"
+            f"{len(detalle)} coincidencias ({n_exactas} exactas, {n_parciales} parciales): "
+            f"D1[{cab1[idx1]}] -> D2[{cab2[idx2]}]"
+        )
+        falt1 = mostrar_faltantes(
+            self.tableWidget_faltantes,
+            cab1,
+            filas1,
+            cab2,
+            filas2,
+            detalle,
+            idx1,
+            idx2,
+        )
+        self.tableWidget_faltantes.setToolTip(
+            f"{len(falt1)} de D1 sin coincidencia en D2"
         )
         QMessageBox.information(
             self,
             "Comparar",
-            f"{len(pares)} coincidencias.\n"
-            f"D1[{cab1[idx1]}] <-> D2[{cab2[idx2]}]\n"
-            "Cargadas en Coincidencias (fila D1 y debajo su par D2).",
+            f"{len(detalle)} coincidencias ({n_exactas} exactas, {n_parciales} parciales).\n"
+            f"D1[{cab1[idx1]}] (consulta) -> D2[{cab2[idx2]}] (busqueda)\n"
+            "Cargadas en Coincidencias (fila D1 y debajo su par D2).\n"
+            f"{len(falt1)} de D1 sin coincidencia en Faltantes.",
         )
 
     def _cargar(self, tabla_num: int, tipo: str):

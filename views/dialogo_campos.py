@@ -11,6 +11,7 @@ from PySide6.QtWidgets import (
     QDialogButtonBox,
     QFormLayout,
     QLabel,
+    QSpinBox,
     QVBoxLayout,
     QWidget,
 )
@@ -56,9 +57,19 @@ class DialogoCampos(QDialog):
         self.chk_case.setChecked(False)
         self.chk_strip = QCheckBox("Ignorar espacios extra", self)
         self.chk_strip.setChecked(True)
+        self.chk_parcial = QCheckBox("Coincidencia parcial: 4551 = 998-4551", self)
+        self.chk_parcial.setChecked(True)
+        form_parcial = QFormLayout()
+        self.spin_min = QSpinBox(self)
+        self.spin_min.setRange(2, 10)
+        self.spin_min.setValue(3)
+        self.spin_min.setToolTip("Longitud minima para el fallback por subcadena")
+        form_parcial.addRow("Longitud minima parcial:", self.spin_min)
         layout.addWidget(self.chk_case)
         layout.addWidget(self.chk_strip)
-        layout.addWidget(QLabel("El resultado se carga en Coincidencias: fila D1 y debajo su par D2."))
+        layout.addWidget(self.chk_parcial)
+        layout.addLayout(form_parcial)
+        layout.addWidget(QLabel("D1 = consulta, D2 = busqueda. Fila D1 y debajo su par D2."))
 
         botones = QDialogButtonBox(
             QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel,
@@ -75,6 +86,8 @@ class DialogoCampos(QDialog):
             {
                 "case_sensitive": self.chk_case.isChecked(),
                 "strip": self.chk_strip.isChecked(),
+                "parcial": self.chk_parcial.isChecked(),
+                "min_longitud_parcial": int(self.spin_min.value()),
             },
         )
 

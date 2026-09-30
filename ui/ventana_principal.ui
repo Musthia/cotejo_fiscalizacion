@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1202</width>
-    <height>834</height>
+    <height>842</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -32,6 +32,9 @@
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-image: url(:/ico/image (1).png);</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::Shape::StyledPanel</enum>
@@ -381,72 +384,15 @@ QPushButton:disabled {
             </property>
            </widget>
           </item>
-          <item row="1" column="0">
-           <widget class="QPushButton" name="pushButton_9">
-            <property name="cursor">
-             <cursorShape>PointingHandCursor</cursorShape>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QPushButton {
-    /* Base de acero azul oscuro profundo (volumen hacia afuera) */
-    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, 
-                                      stop:0 rgb(50, 65, 85), 
-                                      stop:1 rgb(30, 40, 55));
-    color: #FFFFFF;
-    /* Borde oscuro con reflejo superior azul brillante */
-    border: 1px solid #0b111a;
-    border-top: 1px solid #6391c2; 
-    border-radius: 6px;
-    padding: 7px 14px;
-    font-weight: bold;
-    font-size: 12px;
-}
-
-QPushButton:hover {
-    /* El azul base se enciende e intensifica notablemente */
-    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, 
-                                      stop:0 rgb(80, 110, 145), 
-                                      stop:1 rgb(45, 65, 90));
-    /* Texto cian brillante para máximo contraste en hover */
-    color: #3ae2ff;
-    /* Bordes eléctricos integrados */
-    border: 1px solid #163654;
-    border-top: 1px solid #5cb3ff;
-}
-
-QPushButton:pressed {
-    /* Hundimiento extremo en azul marino casi negro */
-    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, 
-                                      stop:0 rgb(15, 25, 40), 
-                                      stop:1 rgb(25, 35, 50));
-    color: #00bfff;
-    border: 1px solid #050b14;
-    padding-top: 8px;
-    padding-bottom: 6px;
-}
-
-QPushButton:disabled {
-    /* Desaturado completo (gris ligeramente frío) para indicar inactividad */
-    background-color: #4b525a;
-    color: #828a94;
-    border: 1px solid #363b40;
-}
-</string>
-            </property>
-            <property name="text">
-             <string>Exportar</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="Line" name="line_8">
+          <item row="1" column="2">
+           <widget class="Line" name="line_4">
             <property name="orientation">
              <enum>Qt::Orientation::Vertical</enum>
             </property>
            </widget>
           </item>
-          <item row="1" column="2">
-           <widget class="Line" name="line_4">
+          <item row="1" column="1">
+           <widget class="Line" name="line_8">
             <property name="orientation">
              <enum>Qt::Orientation::Vertical</enum>
             </property>
@@ -506,6 +452,76 @@ QPushButton:disabled {
             </property>
             <property name="text">
              <string>PushButton</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QPushButton" name="pushButton_export_falt">
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+    /* Base de acero azul oscuro profundo (volumen hacia afuera) */
+    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, 
+                                      stop:0 rgb(50, 65, 85), 
+                                      stop:1 rgb(30, 40, 55));
+    color: #FFFFFF;
+    /* Borde oscuro con reflejo superior azul brillante */
+    border: 1px solid #0b111a;
+    border-top: 1px solid #6391c2; 
+    border-radius: 6px;
+    padding: 7px 14px;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+QPushButton:hover {
+    /* El azul base se enciende e intensifica notablemente */
+    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, 
+                                      stop:0 rgb(80, 110, 145), 
+                                      stop:1 rgb(45, 65, 90));
+    /* Texto cian brillante para máximo contraste en hover */
+    color: #3ae2ff;
+    /* Bordes eléctricos integrados */
+    border: 1px solid #163654;
+    border-top: 1px solid #5cb3ff;
+}
+
+QPushButton:pressed {
+    /* Hundimiento extremo en azul marino casi negro */
+    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, 
+                                      stop:0 rgb(15, 25, 40), 
+                                      stop:1 rgb(25, 35, 50));
+    color: #00bfff;
+    border: 1px solid #050b14;
+    padding-top: 8px;
+    padding-bottom: 6px;
+}
+
+QPushButton:disabled {
+    /* Desaturado completo (gris ligeramente frío) para indicar inactividad */
+    background-color: #4b525a;
+    color: #828a94;
+    border: 1px solid #363b40;
+}
+</string>
+            </property>
+            <property name="text">
+             <string>Exportar</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0" colspan="4">
+           <widget class="QLabel" name="label_2_info">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string/>
             </property>
            </widget>
           </item>
@@ -857,7 +873,7 @@ QPushButton:disabled {
            </widget>
           </item>
           <item row="1" column="0">
-           <widget class="QPushButton" name="pushButton_8">
+           <widget class="QPushButton" name="pushButton_export_coinc">
             <property name="cursor">
              <cursorShape>PointingHandCursor</cursorShape>
             </property>
@@ -910,20 +926,6 @@ QPushButton:disabled {
             </property>
             <property name="text">
              <string>Exportar</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="Line" name="line_3">
-            <property name="orientation">
-             <enum>Qt::Orientation::Vertical</enum>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="2">
-           <widget class="Line" name="line_5">
-            <property name="orientation">
-             <enum>Qt::Orientation::Vertical</enum>
             </property>
            </widget>
           </item>
@@ -981,6 +983,33 @@ QPushButton:disabled {
             </property>
             <property name="text">
              <string>PushButton</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="Line" name="line_5">
+            <property name="orientation">
+             <enum>Qt::Orientation::Vertical</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="Line" name="line_3">
+            <property name="orientation">
+             <enum>Qt::Orientation::Vertical</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0" colspan="4">
+           <widget class="QLabel" name="label_1_info">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string/>
             </property>
            </widget>
           </item>
@@ -1097,7 +1126,7 @@ QPushButton:disabled {
 </string>
          </property>
          <property name="text">
-          <string>LIMPIARA TABLAS</string>
+          <string>LIMPIAR TABLAS</string>
          </property>
         </widget>
        </item>
