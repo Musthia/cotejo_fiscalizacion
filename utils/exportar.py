@@ -3,6 +3,7 @@
 Tablas:
 - tableWidget_coincidencias -> pushButton_export_coinc
 - tableWidget_faltantes -> pushButton_export_falt
+- tableWidget_parciales -> pushButton_export_parciales
 
 Formatos a eleccion del usuario (filtro del dialogo Guardar):
 - Excel (*.xlsx), CSV (*.csv, ';'), Texto (*.txt, TAB), SQLite (*.db)

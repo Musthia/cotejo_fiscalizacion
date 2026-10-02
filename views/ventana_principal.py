@@ -13,6 +13,7 @@ from utils.comparacion import (
     leer_qtable,
     mostrar_coincidencias,
     mostrar_faltantes,
+    mostrar_parciales,
 )
 from utils.exportar import exportar_tabla
 from views.dialogo_campos import DialogoCampos
@@ -76,6 +77,14 @@ class VentanaPrincipal(QMainWindow, Ui_MainWindow):
                 self, self.tableWidget_faltantes, "Faltantes", "faltantes"
             )
         )
+        self.pushButton_export_parciales.clicked.connect(
+            lambda: exportar_tabla(
+                self,
+                self.tableWidget_parciales,
+                "Parciales",
+                "parciales",
+            )
+        )
 
     def _comparar(self):
         cab1, filas1 = leer_qtable(self.tableWidget_datos1)
@@ -109,20 +118,34 @@ class VentanaPrincipal(QMainWindow, Ui_MainWindow):
             parcial=opts.get("parcial", True),
             min_longitud_parcial=int(opts.get("min_longitud_parcial", 3)),
         )
+        exactas = [d for d in detalle if d[2] == "exacta"]
+        parciales = [d for d in detalle if d[2] == "parcial"]
         mostrar_coincidencias(
             self.tableWidget_coincidencias,
             cab1,
             filas1,
             cab2,
             filas2,
-            detalle,
+            exactas,
             idx1,
             idx2,
         )
-        n_exactas = sum(1 for _, _, t in detalle if t == "exacta")
-        n_parciales = len(detalle) - n_exactas
+        mostrar_parciales(
+            self.tableWidget_parciales,
+            cab1,
+            filas1,
+            cab2,
+            filas2,
+            parciales,
+            idx1,
+            idx2,
+        )
         self.tableWidget_coincidencias.setToolTip(
-            f"{len(detalle)} coincidencias ({n_exactas} exactas, {n_parciales} parciales): "
+            f"{len(exactas)} coincidencias exactas: "
+            f"D1[{cab1[idx1]}] -> D2[{cab2[idx2]}]"
+        )
+        self.tableWidget_parciales.setToolTip(
+            f"{len(parciales)} coincidencias parciales: "
             f"D1[{cab1[idx1]}] -> D2[{cab2[idx2]}]"
         )
         falt1 = mostrar_faltantes(
@@ -141,9 +164,9 @@ class VentanaPrincipal(QMainWindow, Ui_MainWindow):
         QMessageBox.information(
             self,
             "Comparar",
-            f"{len(detalle)} coincidencias ({n_exactas} exactas, {n_parciales} parciales).\n"
+            f"{len(exactas)} coincidencias exactas en Resultados.\n"
+            f"{len(parciales)} coincidencias parciales en Parciales.\n"
             f"D1[{cab1[idx1]}] (consulta) -> D2[{cab2[idx2]}] (busqueda)\n"
-            "Cargadas en Coincidencias (fila D1 y debajo su par D2).\n"
             f"{len(falt1)} de D1 sin coincidencia en Faltantes.",
         )
 

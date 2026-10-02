@@ -11,12 +11,13 @@ Tipos de coincidencia:
   guiones, barras, espacios, etc.). Los tokens puramente numericos se
   comparan sin ceros a la izquierda (004551 = 4551).
 
-Resultado en tableWidget_coincidencias con filas pareadas:
-- fila par (0, 2, 4...): fila completa de Datos1 + etiqueta "DATOS 1"
-- fila impar (1, 3, 5...): su coincidencia de Datos2 + etiqueta "DATOS 2"
-
-Filas sin coincidencia en tableWidget_faltantes (una fila por registro,
-con columna "Origen" DATOS 1 / DATOS 2 y cabecera unificada).
+Formato de las tres listas de resultados (estilo comparativo, UNA sola
+fila por registro y las claves juntas al centro):
+    Origen | columnas D1 (clave al final) | clave D2 | resto de columnas D2
+- tableWidget_coincidencias: SOLO coincidencias exactas (columna Tipo)
+- tableWidget_parciales: SOLO coincidencias parciales (columna Tipo)
+- tableWidget_faltantes: filas de Datos1 sin ninguna coincidencia
+  (columna Origen "DATOS 1" y columnas D2 vacias, sin contraparte).
 """
 
 import re
@@ -27,6 +28,18 @@ from PySide6.QtWidgets import QTableWidget, QTableWidgetItem
 COLOR_D1 = QColor(200, 230, 255)  # celeste suave
 COLOR_D2 = QColor(255, 243, 200)  # crema suave
 COLOR_CLAVE = QColor(255, 255, 255)
+
+_FUENTE_CLAVE: QFont | None = None
+
+
+def _fuente_clave() -> QFont:
+    """Fuente en negrita para las columnas de clave (se crea en el primer uso)."""
+    global _FUENTE_CLAVE
+    if _FUENTE_CLAVE is None:
+        fuente = QFont()
+        fuente.setBold(True)
+        _FUENTE_CLAVE = fuente
+    return _FUENTE_CLAVE
 
 
 def normalizar(valor: object, case_sensitive: bool = False, strip: bool = True) -> str:
@@ -212,18 +225,83 @@ def comparar_por_campos(
     ]
 
 
-def cabecera_unificada(cab1: list[str], cab2: list[str]) -> list[str]:
-    """Une cabeceras de distinta estructura: ['Origen', 'D1:x / D2:y', ...]."""
-    n = max(len(cab1), len(cab2))
-    unificada = ["Origen"]
-    for k in range(n):
-        partes: list[str] = []
-        if k < len(cab1):
-            partes.append(f"D1:{cab1[k]}")
-        if k < len(cab2):
-            partes.append(f"D2:{cab2[k]}")
-        unificada.append(" / ".join(partes))
-    return unificada
+def _columnas_comparativas(
+    cab1: list[str], cab2: list[str], idx1: int, idx2: int
+) -> list[tuple[str, int]]:
+    """Orden de columnas comparativo: ('primero',-1), D1 con clave al final,
+    clave D2 y luego el resto de D2 (claves juntas al centro)."""
+    columnas: list[tuple[str, int]] = [("primero", -1)]
+    columnas.extend(("d1", k) for k in range(len(cab1)) if k != idx1)
+    if 0 <= idx1 < len(cab1):
+        columnas.append(("d1", idx1))
+    if 0 <= idx2 < len(cab2):
+        columnas.append(("d2", idx2))
+    columnas.extend(("d2", k) for k in range(len(cab2)) if k != idx2)
+    return columnas
+
+
+def cabecera_comparativa(
+    cab1: list[str],
+    cab2: list[str],
+    idx1: int = 0,
+    idx2: int = 0,
+    etiqueta_primero: str = "Tipo",
+) -> list[str]:
+    """Cabecera comparativa: ['Tipo'/'Origen', 'D1:x', ..., 'D1:clave',
+    'D2:clave', 'D2:y', ...]."""
+    etiquetas = [etiqueta_primero]
+    for lado, k in _columnas_comparativas(cab1, cab2, idx1, idx2)[1:]:
+        prefijo = "D1" if lado == "d1" else "D2"
+        cab = cab1 if lado == "d1" else cab2
+        etiquetas.append(f"{prefijo}:{cab[k]}")
+    return etiquetas
+
+
+def _pintar_fila_comparativa(
+    destino: QTableWidget,
+    r: int,
+    columnas: list[tuple[str, int]],
+    cab1: list[str],
+    cab2: list[str],
+    fila_d1: list[str],
+    fila_d2: list[str],
+    idx1: int,
+    idx2: int,
+    primero: str,
+    color_primero: QColor,
+    tooltip_primero: str,
+    i1: int | None = None,
+    i2: int | None = None,
+    tipo: str = "",
+) -> None:
+    """Pinta una fila: valor inicial, columnas D1 (clave al centro) y D2 al lado."""
+    fuente_clave = _fuente_clave()
+    sufijo = f" · {tipo}" if tipo else ""
+    for c, (lado, k) in enumerate(columnas):
+        if lado == "primero":
+            item = QTableWidgetItem(primero)
+            item.setBackground(color_primero)
+            item.setToolTip(tooltip_primero)
+            destino.setItem(r, c, item)
+            continue
+        if lado == "d1":
+            valor = fila_d1[k] if k < len(fila_d1) else ""
+            etiqueta = f"D1:{cab1[k]}"
+            origen = f"D1 fila {i1 + 1}" if i1 is not None else "D1"
+            fondo = COLOR_D1
+            es_clave = k == idx1
+        else:
+            valor = fila_d2[k] if k < len(fila_d2) else ""
+            etiqueta = f"D2:{cab2[k]}"
+            origen = f"D2 fila {i2 + 1}" if i2 is not None else "D2"
+            fondo = COLOR_D2
+            es_clave = k == idx2
+        item = QTableWidgetItem(valor)
+        item.setBackground(COLOR_CLAVE if es_clave else fondo)
+        if es_clave:
+            item.setFont(fuente_clave)
+        item.setToolTip(f"{origen} · {etiqueta}{sufijo}")
+        destino.setItem(r, c, item)
 
 
 def indices_no_coincidentes(
@@ -250,10 +328,11 @@ def mostrar_faltantes(
     idx1: int = 0,
     idx2: int = 0,
 ) -> list[int]:
-    """Pinta en destino solo las filas de D1 (consulta) sin coincidencia.
+    """Pinta en destino las filas de D1 (consulta) sin coincidencia.
 
-    Una fila por registro de D1 no pareado, con columna "Origen".
-    Devuelve [i1_faltantes] para tooltips/mensajes. D2 no se lista.
+    Formato comparativo (una fila por registro): Origen | D1 con la clave
+    al final | clave D2 | resto de D2 (columnas D2 vacias, sin contraparte).
+    Devuelve [i1_faltantes] para tooltips/mensajes.
     """
     falt1, _ = indices_no_coincidentes(len(filas1), len(filas2), detalle)
     destino.clear()
@@ -261,31 +340,31 @@ def mostrar_faltantes(
     destino.setColumnCount(0)
     if not falt1:
         return falt1
-    cab = ["Origen", *cab1]
-    n_datos = len(cab) - 1
-    destino.setColumnCount(len(cab))
-    destino.setHorizontalHeaderLabels(cab)
+    columnas = _columnas_comparativas(cab1, cab2, idx1, idx2)
+    destino.setColumnCount(len(columnas))
+    destino.setHorizontalHeaderLabels(
+        cabecera_comparativa(cab1, cab2, idx1, idx2, etiqueta_primero="Origen")
+    )
     destino.setRowCount(len(falt1))
 
-    fuente_clave = QFont()
-    fuente_clave.setBold(True)
-
-    r = 0
-    for i1 in falt1:
+    for r, i1 in enumerate(falt1):
         fila = filas1[i1] if 0 <= i1 < len(filas1) else []
-        item_origen = QTableWidgetItem("DATOS 1")
-        item_origen.setBackground(COLOR_D1)
-        item_origen.setToolTip(f"D1 fila {i1 + 1} sin coincidencia en D2")
-        destino.setItem(r, 0, item_origen)
-        for c in range(n_datos):
-            item = QTableWidgetItem(fila[c] if c < len(fila) else "")
-            item.setBackground(COLOR_D1)
-            item.setToolTip(f"D1 fila {i1 + 1} · {cab[c + 1]} · sin coincidencia")
-            if c == idx1:
-                item.setFont(fuente_clave)
-                item.setBackground(COLOR_CLAVE)
-            destino.setItem(r, c + 1, item)
-        r += 1
+        _pintar_fila_comparativa(
+            destino,
+            r,
+            columnas,
+            cab1,
+            cab2,
+            fila,
+            [],
+            idx1,
+            idx2,
+            primero="DATOS 1",
+            color_primero=COLOR_D1,
+            tooltip_primero=f"D1 fila {i1 + 1} sin coincidencia en D2",
+            i1=i1,
+            tipo="sin coincidencia",
+        )
 
     destino.resizeColumnsToContents()
     return falt1
@@ -301,59 +380,63 @@ def mostrar_coincidencias(
     idx1: int = 0,
     idx2: int = 0,
 ) -> None:
-    """Pinta pares en destino: fila D1 completa y debajo su coincidencia D2.
+    """Pinta cada par en UNA sola fila (estilo comparativo, claves al centro).
 
-    Acepta pares (i1, i2) o triples (i1, i2, tipo) para el tooltip.
+    Columnas: Tipo | D1 (clave al final) | clave D2 | resto de D2.
+    Acepta pares (i1, i2) o triples (i1, i2, tipo).
     """
     destino.clear()
     destino.setRowCount(0)
     destino.setColumnCount(0)
     if not pares:
         return
-    cab = cabecera_unificada(cab1, cab2)
-    n_datos = len(cab) - 1
-    destino.setColumnCount(len(cab))
-    destino.setHorizontalHeaderLabels(cab)
-    destino.setRowCount(len(pares) * 2)
+    columnas = _columnas_comparativas(cab1, cab2, idx1, idx2)
+    destino.setColumnCount(len(columnas))
+    destino.setHorizontalHeaderLabels(cabecera_comparativa(cab1, cab2, idx1, idx2))
+    destino.setRowCount(len(pares))
 
-    fuente_clave = QFont()
-    fuente_clave.setBold(True)
-
-    for n, par in enumerate(pares):
+    for r, par in enumerate(pares):
         i1, i2 = par[0], par[1]
         tipo = par[2] if len(par) > 2 else ""
         fila_d1 = filas1[i1] if 0 <= i1 < len(filas1) else []
         fila_d2 = filas2[i2] if 0 <= i2 < len(filas2) else []
-        r_par, r_impar = n * 2, n * 2 + 1
-
-        item_origen1 = QTableWidgetItem("DATOS 1")
-        item_origen1.setBackground(COLOR_D1)
-        if tipo:
-            item_origen1.setToolTip(f"Coincidencia {tipo}")
-        destino.setItem(r_par, 0, item_origen1)
-        for c in range(n_datos):
-            valor = fila_d1[c] if c < len(fila_d1) else ""
-            item = QTableWidgetItem(valor)
-            item.setBackground(COLOR_D1)
-            item.setToolTip(f"D1 fila {i1 + 1} · {cab[c + 1]}" + (f" · {tipo}" if tipo else ""))
-            if c == idx1:
-                item.setFont(fuente_clave)
-                item.setBackground(COLOR_CLAVE)
-            destino.setItem(r_par, c + 1, item)
-
-        item_origen2 = QTableWidgetItem("DATOS 2")
-        item_origen2.setBackground(COLOR_D2)
-        if tipo:
-            item_origen2.setToolTip(f"Coincidencia {tipo}")
-        destino.setItem(r_impar, 0, item_origen2)
-        for c in range(n_datos):
-            valor = fila_d2[c] if c < len(fila_d2) else ""
-            item = QTableWidgetItem(valor)
-            item.setBackground(COLOR_D2)
-            item.setToolTip(f"D2 fila {i2 + 1} · {cab[c + 1]}" + (f" · {tipo}" if tipo else ""))
-            if c == idx2:
-                item.setFont(fuente_clave)
-                item.setBackground(COLOR_CLAVE)
-            destino.setItem(r_impar, c + 1, item)
+        nota = f"Coincidencia {tipo} · " if tipo else "Coincidencia · "
+        _pintar_fila_comparativa(
+            destino,
+            r,
+            columnas,
+            cab1,
+            cab2,
+            fila_d1,
+            fila_d2,
+            idx1,
+            idx2,
+            primero=tipo or "coincidencia",
+            color_primero=COLOR_CLAVE,
+            tooltip_primero=(
+                f"{nota}D1 fila {i1 + 1} ↔ D2 fila {i2 + 1}"
+            ),
+            i1=i1,
+            i2=i2,
+            tipo=tipo,
+        )
 
     destino.resizeColumnsToContents()
+
+
+def mostrar_parciales(
+    destino: QTableWidget,
+    cab1: list[str],
+    filas1: list[list[str]],
+    cab2: list[str],
+    filas2: list[list[str]],
+    pares: list[tuple[int, int]] | list[tuple[int, int, str]],
+    idx1: int = 0,
+    idx2: int = 0,
+) -> None:
+    """Pinta en destino solo los pares con coincidencia parcial.
+
+    Mismo formato comparativo que mostrar_coincidencias (una fila con D1 y
+    su coincidencia D2 al lado).
+    """
+    mostrar_coincidencias(destino, cab1, filas1, cab2, filas2, pares, idx1, idx2)

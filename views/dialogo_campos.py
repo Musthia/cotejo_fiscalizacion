@@ -69,7 +69,12 @@ class DialogoCampos(QDialog):
         layout.addWidget(self.chk_strip)
         layout.addWidget(self.chk_parcial)
         layout.addLayout(form_parcial)
-        layout.addWidget(QLabel("D1 = consulta, D2 = busqueda. Fila D1 y debajo su par D2."))
+        layout.addWidget(
+            QLabel(
+                "D1 = consulta, D2 = busqueda. Comparacion en una sola fila, "
+                "con las claves juntas al centro."
+            )
+        )
 
         botones = QDialogButtonBox(
             QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel,

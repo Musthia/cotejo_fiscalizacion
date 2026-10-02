@@ -759,63 +759,25 @@ class Ui_MainWindow(object):
         self.frame_6.setFrameShadow(QFrame.Shadow.Raised)
         self.gridLayout_5 = QGridLayout(self.frame_6)
         self.gridLayout_5.setObjectName(u"gridLayout_5")
+        self.label_1_info = QLabel(self.frame_6)
+        self.label_1_info.setObjectName(u"label_1_info")
+        sizePolicy.setHeightForWidth(self.label_1_info.sizePolicy().hasHeightForWidth())
+        self.label_1_info.setSizePolicy(sizePolicy)
+
+        self.gridLayout_5.addWidget(self.label_1_info, 4, 0, 1, 4)
+
+        self.line_5 = QFrame(self.frame_6)
+        self.line_5.setObjectName(u"line_5")
+        self.line_5.setFrameShape(QFrame.Shape.VLine)
+        self.line_5.setFrameShadow(QFrame.Shadow.Sunken)
+
+        self.gridLayout_5.addWidget(self.line_5, 1, 2, 1, 1)
+
         self.tableWidget_coincidencias = QTableWidget(self.frame_6)
         self.tableWidget_coincidencias.setObjectName(u"tableWidget_coincidencias")
         self.tableWidget_coincidencias.setStyleSheet(u"background-color: rgb(172, 240, 255);")
 
         self.gridLayout_5.addWidget(self.tableWidget_coincidencias, 0, 0, 1, 4)
-
-        self.pushButton_export_coinc = QPushButton(self.frame_6)
-        self.pushButton_export_coinc.setObjectName(u"pushButton_export_coinc")
-        self.pushButton_export_coinc.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
-        self.pushButton_export_coinc.setStyleSheet(u"QPushButton {\n"
-"    /* Base de acero azul oscuro profundo (volumen hacia afuera) */\n"
-"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, \n"
-"                                      stop:0 rgb(50, 65, 85), \n"
-"                                      stop:1 rgb(30, 40, 55));\n"
-"    color: #FFFFFF;\n"
-"    /* Borde oscuro con reflejo superior azul brillante */\n"
-"    border: 1px solid #0b111a;\n"
-"    border-top: 1px solid #6391c2; \n"
-"    border-radius: 6px;\n"
-"    padding: 7px 14px;\n"
-"    font-weight: bold;\n"
-"    font-size: 12px;\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"    /* El azul base se enciende e intensifica notablemente */\n"
-"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, \n"
-"                                      stop:0 rgb(80, 110, 145), \n"
-"                                      stop:1 rgb(45, 65, 90));\n"
-"    /* Texto cian brillante para m\u00e1ximo contraste en hover */\n"
-"    color: #3ae2ff;\n"
-"    /* Bordes el\u00e9ctricos integrados */\n"
-"    border: 1px so"
-                        "lid #163654;\n"
-"    border-top: 1px solid #5cb3ff;\n"
-"}\n"
-"\n"
-"QPushButton:pressed {\n"
-"    /* Hundimiento extremo en azul marino casi negro */\n"
-"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, \n"
-"                                      stop:0 rgb(15, 25, 40), \n"
-"                                      stop:1 rgb(25, 35, 50));\n"
-"    color: #00bfff;\n"
-"    border: 1px solid #050b14;\n"
-"    padding-top: 8px;\n"
-"    padding-bottom: 6px;\n"
-"}\n"
-"\n"
-"QPushButton:disabled {\n"
-"    /* Desaturado completo (gris ligeramente fr\u00edo) para indicar inactividad */\n"
-"    background-color: #4b525a;\n"
-"    color: #828a94;\n"
-"    border: 1px solid #363b40;\n"
-"}\n"
-"")
-
-        self.gridLayout_5.addWidget(self.pushButton_export_coinc, 1, 0, 1, 1)
 
         self.pushButton_4 = QPushButton(self.frame_6)
         self.pushButton_4.setObjectName(u"pushButton_4")
@@ -869,12 +831,63 @@ class Ui_MainWindow(object):
 
         self.gridLayout_5.addWidget(self.pushButton_4, 1, 3, 1, 1)
 
-        self.line_5 = QFrame(self.frame_6)
-        self.line_5.setObjectName(u"line_5")
-        self.line_5.setFrameShape(QFrame.Shape.VLine)
-        self.line_5.setFrameShadow(QFrame.Shadow.Sunken)
+        self.tableWidget_parciales = QTableWidget(self.frame_6)
+        self.tableWidget_parciales.setObjectName(u"tableWidget_parciales")
+        self.tableWidget_parciales.setStyleSheet(u"background-color: rgb(172, 240, 255);")
 
-        self.gridLayout_5.addWidget(self.line_5, 1, 2, 1, 1)
+        self.gridLayout_5.addWidget(self.tableWidget_parciales, 2, 0, 1, 4)
+
+        self.pushButton_export_coinc = QPushButton(self.frame_6)
+        self.pushButton_export_coinc.setObjectName(u"pushButton_export_coinc")
+        self.pushButton_export_coinc.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.pushButton_export_coinc.setStyleSheet(u"QPushButton {\n"
+"    /* Base de acero azul oscuro profundo (volumen hacia afuera) */\n"
+"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, \n"
+"                                      stop:0 rgb(50, 65, 85), \n"
+"                                      stop:1 rgb(30, 40, 55));\n"
+"    color: #FFFFFF;\n"
+"    /* Borde oscuro con reflejo superior azul brillante */\n"
+"    border: 1px solid #0b111a;\n"
+"    border-top: 1px solid #6391c2; \n"
+"    border-radius: 6px;\n"
+"    padding: 7px 14px;\n"
+"    font-weight: bold;\n"
+"    font-size: 12px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    /* El azul base se enciende e intensifica notablemente */\n"
+"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, \n"
+"                                      stop:0 rgb(80, 110, 145), \n"
+"                                      stop:1 rgb(45, 65, 90));\n"
+"    /* Texto cian brillante para m\u00e1ximo contraste en hover */\n"
+"    color: #3ae2ff;\n"
+"    /* Bordes el\u00e9ctricos integrados */\n"
+"    border: 1px so"
+                        "lid #163654;\n"
+"    border-top: 1px solid #5cb3ff;\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    /* Hundimiento extremo en azul marino casi negro */\n"
+"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, \n"
+"                                      stop:0 rgb(15, 25, 40), \n"
+"                                      stop:1 rgb(25, 35, 50));\n"
+"    color: #00bfff;\n"
+"    border: 1px solid #050b14;\n"
+"    padding-top: 8px;\n"
+"    padding-bottom: 6px;\n"
+"}\n"
+"\n"
+"QPushButton:disabled {\n"
+"    /* Desaturado completo (gris ligeramente fr\u00edo) para indicar inactividad */\n"
+"    background-color: #4b525a;\n"
+"    color: #828a94;\n"
+"    border: 1px solid #363b40;\n"
+"}\n"
+"")
+
+        self.gridLayout_5.addWidget(self.pushButton_export_coinc, 1, 0, 1, 1)
 
         self.line_3 = QFrame(self.frame_6)
         self.line_3.setObjectName(u"line_3")
@@ -883,12 +896,109 @@ class Ui_MainWindow(object):
 
         self.gridLayout_5.addWidget(self.line_3, 1, 1, 1, 1)
 
-        self.label_1_info = QLabel(self.frame_6)
-        self.label_1_info.setObjectName(u"label_1_info")
-        sizePolicy.setHeightForWidth(self.label_1_info.sizePolicy().hasHeightForWidth())
-        self.label_1_info.setSizePolicy(sizePolicy)
+        self.pushButton_export_parciales = QPushButton(self.frame_6)
+        self.pushButton_export_parciales.setObjectName(u"pushButton_export_parciales")
+        self.pushButton_export_parciales.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.pushButton_export_parciales.setStyleSheet(u"QPushButton {\n"
+"    /* Base de acero azul oscuro profundo (volumen hacia afuera) */\n"
+"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, \n"
+"                                      stop:0 rgb(50, 65, 85), \n"
+"                                      stop:1 rgb(30, 40, 55));\n"
+"    color: #FFFFFF;\n"
+"    /* Borde oscuro con reflejo superior azul brillante */\n"
+"    border: 1px solid #0b111a;\n"
+"    border-top: 1px solid #6391c2; \n"
+"    border-radius: 6px;\n"
+"    padding: 7px 14px;\n"
+"    font-weight: bold;\n"
+"    font-size: 12px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    /* El azul base se enciende e intensifica notablemente */\n"
+"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, \n"
+"                                      stop:0 rgb(80, 110, 145), \n"
+"                                      stop:1 rgb(45, 65, 90));\n"
+"    /* Texto cian brillante para m\u00e1ximo contraste en hover */\n"
+"    color: #3ae2ff;\n"
+"    /* Bordes el\u00e9ctricos integrados */\n"
+"    border: 1px so"
+                        "lid #163654;\n"
+"    border-top: 1px solid #5cb3ff;\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    /* Hundimiento extremo en azul marino casi negro */\n"
+"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, \n"
+"                                      stop:0 rgb(15, 25, 40), \n"
+"                                      stop:1 rgb(25, 35, 50));\n"
+"    color: #00bfff;\n"
+"    border: 1px solid #050b14;\n"
+"    padding-top: 8px;\n"
+"    padding-bottom: 6px;\n"
+"}\n"
+"\n"
+"QPushButton:disabled {\n"
+"    /* Desaturado completo (gris ligeramente fr\u00edo) para indicar inactividad */\n"
+"    background-color: #4b525a;\n"
+"    color: #828a94;\n"
+"    border: 1px solid #363b40;\n"
+"}\n"
+"")
 
-        self.gridLayout_5.addWidget(self.label_1_info, 2, 0, 1, 4)
+        self.gridLayout_5.addWidget(self.pushButton_export_parciales, 3, 0, 1, 1)
+
+        self.pushButton_5 = QPushButton(self.frame_6)
+        self.pushButton_5.setObjectName(u"pushButton_5")
+        self.pushButton_5.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        self.pushButton_5.setStyleSheet(u"QPushButton {\n"
+"    /* Base de acero azul oscuro profundo (volumen hacia afuera) */\n"
+"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, \n"
+"                                      stop:0 rgb(50, 65, 85), \n"
+"                                      stop:1 rgb(30, 40, 55));\n"
+"    color: #FFFFFF;\n"
+"    /* Borde oscuro con reflejo superior azul brillante */\n"
+"    border: 1px solid #0b111a;\n"
+"    border-top: 1px solid #6391c2; \n"
+"    border-radius: 6px;\n"
+"    padding: 7px 14px;\n"
+"    font-weight: bold;\n"
+"    font-size: 12px;\n"
+"}\n"
+"\n"
+"QPushButton:hover {\n"
+"    /* El azul base se enciende e intensifica notablemente */\n"
+"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, \n"
+"                                      stop:0 rgb(80, 110, 145), \n"
+"                                      stop:1 rgb(45, 65, 90));\n"
+"    /* Texto cian brillante para m\u00e1ximo contraste en hover */\n"
+"    color: #3ae2ff;\n"
+"    /* Bordes el\u00e9ctricos integrados */\n"
+"    border: 1px so"
+                        "lid #163654;\n"
+"    border-top: 1px solid #5cb3ff;\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    /* Hundimiento extremo en azul marino casi negro */\n"
+"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, \n"
+"                                      stop:0 rgb(15, 25, 40), \n"
+"                                      stop:1 rgb(25, 35, 50));\n"
+"    color: #00bfff;\n"
+"    border: 1px solid #050b14;\n"
+"    padding-top: 8px;\n"
+"    padding-bottom: 6px;\n"
+"}\n"
+"\n"
+"QPushButton:disabled {\n"
+"    /* Desaturado completo (gris ligeramente fr\u00edo) para indicar inactividad */\n"
+"    background-color: #4b525a;\n"
+"    color: #828a94;\n"
+"    border: 1px solid #363b40;\n"
+"}\n"
+"")
+
+        self.gridLayout_5.addWidget(self.pushButton_5, 3, 3, 1, 1)
 
 
         self.gridLayout_2.addWidget(self.frame_6, 3, 0, 1, 1)
@@ -1029,9 +1139,11 @@ class Ui_MainWindow(object):
         self.pushButton_nomb_archiv.setText(QCoreApplication.translate("MainWindow", u"NOMBRES DE ARCHIVOS", None))
         self.pushButton_datos_csv.setText(QCoreApplication.translate("MainWindow", u"DATCOS EN CSV", None))
         self.pushButton_datos_excel.setText(QCoreApplication.translate("MainWindow", u"DATOS EN EXCEL", None))
-        self.pushButton_export_coinc.setText(QCoreApplication.translate("MainWindow", u"Exportar", None))
-        self.pushButton_4.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
         self.label_1_info.setText("")
+        self.pushButton_4.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
+        self.pushButton_export_coinc.setText(QCoreApplication.translate("MainWindow", u"Exportar", None))
+        self.pushButton_export_parciales.setText(QCoreApplication.translate("MainWindow", u"Exportar", None))
+        self.pushButton_5.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
         self.pushButton_comparar.setText(QCoreApplication.translate("MainWindow", u"COMPARAR", None))
         self.pushButton_limpiar_todo.setText(QCoreApplication.translate("MainWindow", u"LIMPIAR TABLAS", None))
     # retranslateUi
